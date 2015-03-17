@@ -27,10 +27,13 @@ public:
     Substitution(std::initializer_list<int> &&initList);
 
     std::size_t size() const;
+    std::string toString() const;
+
 
     int operator[] (std::size_t i) const;
     bool operator < (const Substitution& other) const;
     Substitution operator* (const Substitution& other) const;
+    Substitution mutate (std::size_t pos) const;
 
     friend std::ostream &operator << (std::ostream& out, const Substitution &substitution);
     static ObjectiveFunction getFuntion();

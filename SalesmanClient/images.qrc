@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/evoluting.jpg</file>
+        <file>img/evoluting200px.jpg</file>
+        <file>img/evoluting150px.png</file>
+        <file>img/evoluting256.ico</file>
+    </qresource>
+</RCC>

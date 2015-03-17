@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <random>
 #include <ctime>
+#include <sstream>
 
 ObjectiveFunction Substitution::_funtion(std::move(std::vector<int>()));
 std::default_random_engine Substitution::random(time(0));
@@ -84,6 +85,13 @@ std::size_t Substitution::size() const
     return _size;
 }
 
+std::string Substitution::toString() const
+{
+    std::stringstream out;
+    out << *this;
+    return out.str();
+}
+
 int Substitution::operator[](std::size_t i) const
 {
     return _data.at(i);
@@ -104,6 +112,16 @@ Substitution Substitution::operator*(const Substitution &other) const
     {
         result[i] = _data[other[i] - 1];
     }
+    return Substitution(std::move(result));
+}
+
+Substitution Substitution::mutate(std::size_t pos) const
+{
+    if(pos + 1 >= _size)
+        throw std::out_of_range("Substitution::mutate: pos out of range");
+
+    std::vector<int> result = _data;
+    std::swap(result[pos], result[pos + 1]);
     return Substitution(std::move(result));
 }
 

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
@@ -21,11 +23,35 @@ int main()
     }
 
     Substitution::setFuntion(ObjectiveFunction(std::move(arr)));
-    Salesman engine(n, 100);
+    Salesman engine(n, 20);
+
+    double lastAverage;
+    int countAverageEqual = 0;
 
     for(int i = 1; i < 1000; i++)
     {
-        cout << "Step number " << i << " best solution: " << engine.makeStep() << endl;
+        double currentAverage = engine.averageResult();
+        cout << "Step number " << i
+             << " best solution: " << engine.makeStep()
+             << " averege result: " << currentAverage << endl;
+
+        if(currentAverage == lastAverage)
+        {
+            countAverageEqual++;
+        }
+        else
+        {
+            countAverageEqual = 0;
+            lastAverage = currentAverage;
+        }
+
+        if(countAverageEqual >= 50)
+        {
+            break;
+        }
+
+        //this_thread::sleep_for(chrono::milliseconds(50));
+
     }
 
     cout << "Answer: " << engine.answer();

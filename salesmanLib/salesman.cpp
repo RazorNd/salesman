@@ -35,8 +35,19 @@ int Salesman::bestSolution() const
     return Substitution::getFuntion()(*(_population.begin()));
 }
 
+double Salesman::averageResult() const
+{
+    int sum = 0;
+    for(auto &a: _population)
+    {
+        sum += Substitution::getFuntion()(a);
+    }
+    return (double)sum / _populationSize;
+}
+
 int Salesman::makeStep()
 {
+    mutate(_mutationsCount);
     reproduction(_reproductionCount);
     deleteForScarceTravels();
     return bestSolution();
@@ -47,6 +58,16 @@ Substitution Salesman::answer() const
     return *(_population.begin());
 }
 
+
+std::size_t Salesman::mutationsCount() const
+{
+    return _mutationsCount;
+}
+
+void Salesman::setMutationsCount(const std::size_t &mutationsCount)
+{
+    _mutationsCount = mutationsCount;
+}
 Substitution Salesman::createNew() const
 {
     return Substitution(_cityCount);
@@ -80,6 +101,19 @@ void Salesman::reproduction(int count)
     }
 }
 
+void Salesman::mutate(int count)
+{
+    for(int i = 0; i < count; i++)
+    {
+        _population.insert(mutate(at(random()%_populationSize)));
+    }
+}
+
+Substitution Salesman::mutate(const Substitution &a) const
+{
+    return a.mutate(random()%(_cityCount - 1));
+}
+
 Substitution Salesman::reproduction(const Substitution &a, const Substitution &b) const
 {
     return a * b;
@@ -96,7 +130,10 @@ const Substitution &Salesman::at(std::size_t i) const
 }
 
 Salesman::Salesman(std::size_t cityCount, std::size_t populationSize):
-    _cityCount(cityCount), _populationSize(populationSize), _reproductionCount(populationSize/2)
+    _cityCount(cityCount),
+    _populationSize(populationSize),
+    _reproductionCount(populationSize/2),
+    _mutationsCount(populationSize/2)
 {
     addForScarceTravels();
 }

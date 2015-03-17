@@ -3,7 +3,7 @@
 
 #include "substitution.h"
 #include <set>
-#include <functional>
+#include <utility>
 
 class Salesman
 {
@@ -13,11 +13,14 @@ class Salesman
     std::size_t _populationSize;
     std::multiset<Substitution> _population;
     std::size_t _reproductionCount;
+    std::size_t _mutationsCount;
 
     Substitution createNew() const;
     void addForScarceTravels();
     void deleteForScarceTravels();
     void reproduction(int count);
+    void mutate(int count);
+    Substitution mutate(const Substitution& a) const;
     Substitution reproduction(const Substitution& a, const Substitution& b) const;
 public:
     const Substitution &at(std::size_t i) const;
@@ -30,8 +33,11 @@ public:
     void setReproductionCount(const std::size_t &value);
 
     int bestSolution() const;
+    double averageResult() const;
     int makeStep();
     Substitution answer() const;
+    std::size_t mutationsCount() const;
+    void setMutationsCount(const std::size_t &mutationsCount);
 };
 
 #endif // SALESMAN_H

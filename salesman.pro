@@ -2,4 +2,6 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     salesmanLib \
-    salesmanTest
+    salesmanTest \
+    testGenirator \
+    SalesmanClient
