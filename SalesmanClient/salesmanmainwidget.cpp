@@ -72,8 +72,8 @@ void SalesmanMainWidget::paste()
 
 void SalesmanMainWidget::aboutProgram()
 {
-    QMessageBox::about(this, "Эволюционные вычисления",
-                       "<html>\
+    QMessageBox::about(this, trUtf8("Эволюционные вычисления"),
+                       trUtf8("<html>\
                        <head>\
                        <style>\
                        .leftimg {\
@@ -92,5 +92,5 @@ void SalesmanMainWidget::aboutProgram()
                                </div>	\
                                <center><b>&copy;2015</b> Программу разработал Разоренов Д.А.</center>\
                        </body>\
-                       </html>");
+                       </html>"));
 }

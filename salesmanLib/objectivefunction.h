@@ -13,7 +13,7 @@ class ObjectiveFunction
 
     int at(std::size_t i, std::size_t j) const;
 public:    
-    ObjectiveFunction(std::vector<int>&& weightMatrix);
+    //ObjectiveFunction(std::vector<int>&& weightMatrix);
     ObjectiveFunction(const std::vector<int>& weightMatrix);
 
     int operator() (const Substitution &sub);

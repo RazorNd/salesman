@@ -2,12 +2,13 @@
 #include <set>
 #include <list>
 #include <stdexcept>
-#include <random>
+//#include <random>
 #include <ctime>
+#include <cstdlib>
 #include <sstream>
 
-ObjectiveFunction Substitution::_funtion(std::move(std::vector<int>()));
-std::default_random_engine Substitution::random(time(0));
+ObjectiveFunction Substitution::_funtion = ObjectiveFunction(std::vector<int>());
+//std::default_random_engine Substitution::random(time(0));
 
 ObjectiveFunction Substitution::getFuntion()
 {
@@ -21,26 +22,49 @@ void Substitution::setFuntion(const ObjectiveFunction &value)
 void Substitution::randomInit()
 {
     std::set<int> exists;
-    for(auto &a: _data)
+//    for(auto &a: _data)
+//    {
+//        int randomNumber;
+//        bool isExistsNumber;
+//        do
+//        {
+//            randomNumber = random() % _size + 1;
+//            auto resultInsert = exists.insert(randomNumber);
+//            isExistsNumber = !resultInsert.second;
+//        }while(isExistsNumber);
+//        a = randomNumber;
+//    }
+    for(std::vector<int>::iterator it = _data.begin();
+        it != _data.end(); it++)
     {
         int randomNumber;
         bool isExistsNumber;
         do
         {
-            randomNumber = random() % _size + 1;
-            auto resultInsert = exists.insert(randomNumber);
+            randomNumber = rand() % _size + 1;
+            std::pair<std::set<int>::iterator, bool> resultInsert
+                    = exists.insert(randomNumber);
             isExistsNumber = !resultInsert.second;
         }while(isExistsNumber);
-        a = randomNumber;
-    }    
+        *it = randomNumber;
+    }
 }
 
 bool Substitution::isCorrect()
 {
     std::set<int> exists;
-    for(auto &a: _data)
+//    for(auto &a: _data)
+//    {
+//        auto result = exists.insert(a);
+//        if(!result.second)
+//        {
+//            return false;
+//        }
+//    }
+    for(std::vector<int>::const_iterator it = _data.begin();
+        it != _data.end(); it++)
     {
-        auto result = exists.insert(a);
+        std::pair<std::set<int>::iterator, bool> result = exists.insert(*it);
         if(!result.second)
         {
             return false;
@@ -48,9 +72,18 @@ bool Substitution::isCorrect()
     }
 
     int i = 1;
-    for(auto &a: exists)
+//    for(auto &a: exists)
+//    {
+//        if(a != i)
+//        {
+//            return false;
+//        }
+//        i++;
+//    }
+    for(std::set<int>::const_iterator it = exists.begin();
+        it != exists.end(); it++)
     {
-        if(a != i)
+        if(*it != i)
         {
             return false;
         }
@@ -66,19 +99,26 @@ Substitution::Substitution(std::size_t size):
     randomInit();
 }
 
-Substitution::Substitution(std::vector<int> &&data):
+Substitution::Substitution(std::vector<int> &data):
     _size(data.size()), _data(data)
 {
     if(!isCorrect())
         throw std::logic_error("Substitution::Substitution(): param 'data' is not correct");
 }
 
-Substitution::Substitution(std::initializer_list<int> &&initList):
+/*Substitution::Substitution(std::vector<int> &&data):
+    _size(data.size()), _data(data)
+{
+    if(!isCorrect())
+        throw std::logic_error("Substitution::Substitution(): param 'data' is not correct");
+}*/
+
+/*Substitution::Substitution(std::initializer_list<int> &&initList):
     _size(initList.size()), _data(initList)
 {
     if(!isCorrect())
         throw std::logic_error("Substitution::Substitution(): param 'initList' is not correct");
-}
+}*/
 
 std::size_t Substitution::size() const
 {
@@ -112,7 +152,8 @@ Substitution Substitution::operator*(const Substitution &other) const
     {
         result[i] = _data[other[i] - 1];
     }
-    return Substitution(std::move(result));
+    //return Substitution(std::move(result));
+    return Substitution(result);
 }
 
 Substitution Substitution::mutate(std::size_t pos) const
@@ -122,7 +163,8 @@ Substitution Substitution::mutate(std::size_t pos) const
 
     std::vector<int> result = _data;
     std::swap(result[pos], result[pos + 1]);
-    return Substitution(std::move(result));
+    //return Substitution(std::move(result));
+    return Substitution(result);
 }
 
 std::ostream &operator <<(std::ostream &out, const Substitution &substitution)

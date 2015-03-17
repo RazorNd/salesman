@@ -47,7 +47,9 @@ QVariant SalesmanWeightMatrixModel::headerData(int section, Qt::Orientation orie
     if(role != Qt::DisplayRole)
         return QVariant();
 
-    QString str = orientation == Qt::Horizontal ? "В город" : "Из города";
+    QString str = orientation == Qt::Horizontal ?
+                trUtf8("В город") :
+                trUtf8("Из города");
 
     return QString("%1 %2")
             .arg(str)

@@ -1,8 +1,9 @@
 #include "salesman.h"
-#include <random>
+//#include <random>
 #include <ctime>
+#include <cstdlib>
 
-std::default_random_engine Salesman::random(time(0));
+//std::default_random_engine Salesman::random(time(0));
 
 std::size_t Salesman::populationSize() const
 {
@@ -38,9 +39,14 @@ int Salesman::bestSolution() const
 double Salesman::averageResult() const
 {
     int sum = 0;
-    for(auto &a: _population)
+    /*for(auto &a: _population)
     {
         sum += Substitution::getFuntion()(a);
+    }*/
+    for(std::multiset<Substitution>::iterator it = _population.begin();
+        it != _population.end(); it++)
+    {
+        sum += Substitution::getFuntion()(*it);
     }
     return (double)sum / _populationSize;
 }
@@ -86,7 +92,7 @@ void Salesman::deleteForScarceTravels()
 {
     int div = _population.size() - _populationSize;
 
-    auto it = _population.end();
+    std::multiset<Substitution>::iterator it = _population.end();
     for(int i = 0; i < div; i++)
         it--;
     _population.erase(it, _population.end());
@@ -96,8 +102,8 @@ void Salesman::reproduction(int count)
 {
     for(int i = 0; i < count; i++)
     {
-        _population.insert(reproduction(at(random()%_populationSize),
-                                        at(random()%_populationSize)));
+        _population.insert(reproduction(at(rand()%_populationSize),
+                                        at(rand()%_populationSize)));
     }
 }
 
@@ -105,13 +111,13 @@ void Salesman::mutate(int count)
 {
     for(int i = 0; i < count; i++)
     {
-        _population.insert(mutate(at(random()%_populationSize)));
+        _population.insert(mutate(at(rand()%_populationSize)));
     }
 }
 
 Substitution Salesman::mutate(const Substitution &a) const
 {
-    return a.mutate(random()%(_cityCount - 1));
+    return a.mutate(rand()%(_cityCount - 1));
 }
 
 Substitution Salesman::reproduction(const Substitution &a, const Substitution &b) const
@@ -121,7 +127,7 @@ Substitution Salesman::reproduction(const Substitution &a, const Substitution &b
 
 const Substitution &Salesman::at(std::size_t i) const
 {
-    auto it = _population.cbegin();
+    std::multiset<Substitution>::const_iterator it = _population.begin();
     for(std::size_t a = 0; a < i; a++)
     {
         it++;
