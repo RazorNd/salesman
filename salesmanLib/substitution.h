@@ -3,16 +3,13 @@
 
 #include "objectivefunction.h"
 #include <vector>
-//#include <initializer_list>
 #include <ostream>
-//#include <random>
 
 class ObjectiveFunction;
 
 class Substitution
 {
-    static ObjectiveFunction _funtion;
-    //static std::default_random_engine random;
+    static ObjectiveFunction _funtion;    
 
     const std::size_t _size;
     std::vector<int> _data;
@@ -20,12 +17,9 @@ class Substitution
     void randomInit();
     bool isCorrect();    
 public:
-    //Substitution() = delete;
 
     Substitution(std::size_t size);
-    Substitution(std::vector<int> &data);
-    //Substitution(std::vector<int> &&data);
-    //Substitution(std::initializer_list<int> &&initList);
+    Substitution(std::vector<int> &data);    
 
     std::size_t size() const;
     std::string toString() const;

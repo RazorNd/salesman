@@ -7,8 +7,6 @@
 
 class Salesman
 {
-    //static std::default_random_engine random;
-
     const std::size_t _cityCount;
     std::size_t _populationSize;
     std::multiset<Substitution> _population;

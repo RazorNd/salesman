@@ -1,9 +1,6 @@
 #include "salesman.h"
-//#include <random>
 #include <ctime>
 #include <cstdlib>
-
-//std::default_random_engine Salesman::random(time(0));
 
 std::size_t Salesman::populationSize() const
 {
@@ -38,11 +35,7 @@ int Salesman::bestSolution() const
 
 double Salesman::averageResult() const
 {
-    int sum = 0;
-    /*for(auto &a: _population)
-    {
-        sum += Substitution::getFuntion()(a);
-    }*/
+    int sum = 0;    
     for(std::multiset<Substitution>::iterator it = _population.begin();
         it != _population.end(); it++)
     {
@@ -141,5 +134,6 @@ Salesman::Salesman(std::size_t cityCount, std::size_t populationSize):
     _reproductionCount(populationSize/2),
     _mutationsCount(populationSize/2)
 {
+    srand(time(0));
     addForScarceTravels();
 }

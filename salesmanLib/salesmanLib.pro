@@ -19,8 +19,6 @@ HEADERS += salesman.h \
     substitution.h \
     objectivefunction.h
 
-#CONFIG += c++11
-
 unix {
     target.path = /usr/lib
     INSTALLS += target

@@ -16,13 +16,6 @@ int ObjectiveFunction::at(std::size_t i, std::size_t j) const
     return _weightMatrix.at(i * _size + j);
 }
 
-/*ObjectiveFunction::ObjectiveFunction(std::vector<int> &&weightMatrix):
-    _size(sqrt(weightMatrix.size())), _weightMatrix(weightMatrix)
-{
-    if(_size * _size != weightMatrix.size())
-        throw std::invalid_argument("ObjectiveFunction::ObjectiveFunction() invalid argument weightMatrix");
-}*/
-
 ObjectiveFunction::ObjectiveFunction(const std::vector<int> &weightMatrix):
     _size(sqrt(weightMatrix.size())), _weightMatrix(weightMatrix)
 {
